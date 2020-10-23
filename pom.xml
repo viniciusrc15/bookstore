@@ -12,7 +12,7 @@
 	<artifactId>api</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>bookstore</name>
-	<description>Managnament Bookstore  Api </description>
+	<description>Management Bookstore Api</description>
 
 	<properties>
 		<java.version>11</java.version>
