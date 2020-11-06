@@ -15,7 +15,7 @@
 	<description>Management Bookstore Api</description>
 
 	<properties>
-		<java.version>11</java.version>
+		<java.version>8</java.version>
 		<liquibase.plugin.version>3.8.5</liquibase.plugin.version>
 	</properties>
 

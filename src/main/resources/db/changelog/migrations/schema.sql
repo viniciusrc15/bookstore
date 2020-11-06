@@ -3,7 +3,12 @@
 -- changeset vinicius.castro:create-initial-tables
 
 
+
+drop table if exists book_loan_history;
+drop table if exists loan_history;
 drop table if exists user;
+drop table if exists book;
+drop table if exists publishing_company;
 
 create table user
 (
@@ -15,8 +20,6 @@ create table user
 );
 
 
-drop table if exists publishing_company;
-
 create table publishing_company
 (
     id           bigint(20)   not null auto_increment,
@@ -25,8 +28,6 @@ create table publishing_company
     primary key (id)
 );
 
-
-drop table if exists book;
 
 create table book
 (
@@ -39,9 +40,6 @@ create table book
     key (publishing_company_id),
     constraint foreign key (publishing_company_id) references publishing_company (id)
 );
-
-
-drop table if exists loan_history;
 
 create table loan_history
 (
@@ -57,8 +55,6 @@ create table loan_history
     constraint foreign key (book_id) references book (id)
 );
 
-
-drop table if exists book_loan_history;
 
 create table book_loan_history
 (
