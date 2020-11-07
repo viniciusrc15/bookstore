@@ -19,6 +19,7 @@ services:
       - spring-boot-mysql-network
     depends_on:
       - mysql-service
+    restart: on-failure
 networks:
   spring-boot-mysql-network:
     driver: bridge
