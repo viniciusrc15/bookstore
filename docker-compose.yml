@@ -10,11 +10,14 @@ services:
       - MYSQL_DATABASE=bookstore
   api-service:
     container_name: api-bookstore
-    build:
-      context: ./
-      dockerfile: Dockerfile
+    image: viniciusrs/bookstore-jar:latest
+    #    build:
+    #      context: ./
+    #      dockerfile: Dockerfile
+    environment:
+      - SPRING_PROFILES_ACTIVE=production
     ports:
-      - "8080:8080"
+      - "4300:8080"
     networks:
       - spring-boot-mysql-network
     depends_on:

@@ -1,29 +1,13 @@
-# Build Stage for Spring boot application image
-FROM openjdk:8-jdk-alpine as build
-
-WORKDIR /app
-
-COPY mvnw .
-COPY .mvn .mvn
+FROM maven:3.6.1-jdk-8-alpine AS MAVEN_BUILD
+WORKDIR /build
 COPY pom.xml .
+RUN mvn dependency:go-offline
 
-RUN chmod +x ./mvnw
-# download the dependency if needed or if the pom file is changed
-RUN ./mvnw dependency:go-offline -B
+COPY src/ /build/src/
+RUN mvn package -DskipTests
 
-COPY src src
+FROM openjdk:8-jre-alpine
 
-RUN ./mvnw package -DskipTests
-RUN mkdir -p target/dependency && (cd target/dependency; jar -xf ../*.jar)
+COPY --from=MAVEN_BUILD /build/target/api-0.0.1-SNAPSHOT.jar /api.jar
 
-# Production Stage for Spring boot application image
-FROM openjdk:8-jre-alpine as production
-ARG DEPENDENCY=/app/target/dependency
-
-# Copy the dependency application file from build stage artifact
-COPY --from=build ${DEPENDENCY}/BOOT-INF/lib /app/lib
-COPY --from=build ${DEPENDENCY}/META-INF /app/META-INF
-COPY --from=build ${DEPENDENCY}/BOOT-INF/classes /app
-
-# Run the Spring boot application
-ENTRYPOINT ["java","-Dspring.profiles.active=develop","-cp","app:app/lib/*","com.bookstore.api.BookstoreApplication"]
+ENTRYPOINT ["java","-jar","/api.jar"]
