@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: bookstore-deployment
+spec:
+  selector:
+    matchLabels:
+      name: bookstore-pod
+  template:
+    metadata:
+      labels:
+        name: bookstore-pod
+    spec:
+      containers:
+        - name: api-bookstore
+          image: viniciusrs/bookstore-jar:latest
+          ports:
+            - containerPort: 80
+          env:
+            - name: "SPRING_PROFILES_ACTIVE"
+              value: "develop"
